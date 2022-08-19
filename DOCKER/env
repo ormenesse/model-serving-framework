@@ -1,0 +1,5 @@
+#/bin/bash
+export gitPath=https://github.com/gyramais/models_serve.git
+export baseUrl=models_serve
+export usergit=
+export password=
