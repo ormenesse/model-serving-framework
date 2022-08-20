@@ -6,6 +6,7 @@ On the docker version, the user must have a github repository with 'n' folders c
 Each folder in your repository must have a class named as etls.py (extract, transform, load and score) and it must contain 'transform_predict()' method, note that it must return a dict structure.
 
 Structure:
+```
 -app.py
 -serve_models.py (created by create_serve_models.py)
 -models_serve (will clone everyday your github repository with your models and ETL's)
@@ -19,7 +20,7 @@ Structure:
             __init__()
             transform_predict() -> dict()
             any_others_method_you_may_need()
-
+```
 The app will automatically serve on port 80 and each model will be wating to be served on, for an exemple:
 - /baseUrl/Model1
 - /baseUrl/Model2
@@ -33,7 +34,7 @@ This method will return all of your models into one dict.
 Note that thiking kubernetes and nginx ingress, the environment variable 'baseUrl' is needed.
 
 If your model needs any variables, you should call de URL posting a JSON:
-
+```
 data= {
     'variables' : {
         'var1' : 1
@@ -42,7 +43,7 @@ data= {
         etc.
     }
 }
-
+```
 And the response should be a JSON with the reponse returned by your 'transform_predict()' method. Note that you should handle possible errors in your classes.
 
 Note that this project is not intended to run BATCH scoring strategy, but a row scoring. On a daily basis, you should configure a load balance a set as many parallel pods as possible.
