@@ -21,6 +21,12 @@ Structure:
             transform_predict() -> dict()
             any_others_method_you_may_need()
 ```
+An example repository you should find here:
+
+```
+https://github.com/ormenesse/models_serve
+```
+
 The app will automatically serve on port 80 and each model will be wating to be served on, for an exemple:
 - /baseUrl/Model1
 - /baseUrl/Model2
