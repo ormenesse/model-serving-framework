@@ -8,7 +8,7 @@ gitPassword = os.getenv('password')
 gitPath = os.getenv('gitPath').replace('https://','')
 
 # update git
-cmd = "rm -rf models_serve/ && git clone https://{}:{}@{}".format(gitUserName,gitPassword,gitPath)
+cmd = "rm -rf models_serve/ && git clone https://{}:{}@{} ./models_serve".format(gitUserName,gitPassword,gitPath)
 os.system(cmd)
 time.sleep(2)
 
