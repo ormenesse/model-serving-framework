@@ -21,8 +21,8 @@ import json
 import gc
 import os
 
-from __main__ import app
-
+#from __main__ import app
+from app import app
 class NpEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, np.integer):
@@ -32,7 +32,16 @@ class NpEncoder(json.JSONEncoder):
         if isinstance(obj, np.ndarray):
             return obj.tolist()
         return super(NpEncoder, self).default(obj)
-\n"""
+
+@app.route('/{}/refactor',methods=['GET'])
+def refactor():
+    gc.collect()
+    cmd = "cd /app/app/ && python3 create_serve_models.py"
+    os.system(cmd)
+    
+    return True
+
+\n""".format(baseUrl,'{}')
 
 runSepareteModel = """
 #
@@ -78,6 +87,8 @@ with open('serve_models.py','w') as f:
     f.write('\n'.join(arrayMethods))
     f.write(runAllModels)
 
+cmd = "/usr/bin/supervisord"
+os.system(cmd)
 cmd = "supervisorctl restart gunicorn"
 os.system(cmd)
 print("Daemon Restarted! All Done!")

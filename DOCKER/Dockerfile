@@ -12,7 +12,7 @@ RUN apt -y install apt-utils
 RUN apt-get install -y python3 python3-pip python3-virtualenv nginx gunicorn3 supervisor git
 
 #python libraries
-RUN pip3 install -r /app/app/requirements.txt
+RUN pip3 install -r /app/requirements.txt
 
 # Copy hello-cron file to the cron.d directory
 COPY cron /etc/cron.d/cron
@@ -33,5 +33,5 @@ COPY gunicorn.conf /etc/supervisor/conf.d/gunicorn.conf
 RUN chmod 777 -R /app/app
 EXPOSE 80
 CMD cron
-CMD ["cd /app/app/ && python3 create_serve_models.py"]
+#CMD ["cd /app/app/ && python3 create_serve_models.py"]
 CMD ["/usr/bin/supervisord"]

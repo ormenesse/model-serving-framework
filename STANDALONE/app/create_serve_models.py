@@ -3,6 +3,14 @@ import time
 import glob
 
 baseUrl = os.getenv('baseUrl')
+gitUserName = os.getenv('usergit')
+gitPassword = os.getenv('password')
+gitPath = os.getenv('gitPath').replace('https://','')
+
+# update git
+cmd = "rm -rf models_serve/ && git clone https://{}:{}@{}".format(gitUserName,gitPassword,gitPath)
+os.system(cmd)
+time.sleep(2)
 
 # creating serve_models.py
 writeImports="""import flask
@@ -24,7 +32,16 @@ class NpEncoder(json.JSONEncoder):
         if isinstance(obj, np.ndarray):
             return obj.tolist()
         return super(NpEncoder, self).default(obj)
-\n"""
+
+@app.route('/{}/refactor',methods=['GET'])
+def refactor():
+    gc.collect()
+    cmd = "cd /app/app/ && python3 create_serve_models.py"
+    os.system(cmd)
+    
+    return True
+
+\n""".format(baseUrl,'{}')
 
 runSepareteModel = """
 #
@@ -69,7 +86,9 @@ with open('serve_models.py','w') as f:
     f.write('warnings.filterwarnings("ignore")\n')
     f.write('\n'.join(arrayMethods))
     f.write(runAllModels)
-
+    
+cmd = "/usr/bin/supervisord"
+os.system(cmd)
 cmd = "supervisorctl restart gunicorn"
 os.system(cmd)
 print("Daemon Restarted! All Done!")

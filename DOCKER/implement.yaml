@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: model-serve-api
+    labels:
+      app : model-serve-api
+spec:
+  selector:
+    matchLabels:
+      app: model-serve-api
+  template:
+    metadata:
+      labels:
+        app: model-serve-api
+    spec:
+      containers:
+      - image: 
+        imagePullPolicy: IfNotPresent
+        name: model-serve-api
+        env:
+        - name: gitPath
+          value: 
+        - name: baseUrl
+          value: models_serve
+        - name: usergit
+          value: 
+        - name: password
+          value: 
+        command: ["/bin/bash"]
+        args: ["-c","cd /app/app/ && python3 create_serve_models.py "]
