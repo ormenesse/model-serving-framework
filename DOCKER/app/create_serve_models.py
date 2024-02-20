@@ -4,7 +4,7 @@ import glob
 
 baseUrl = os.getenv('baseUrl')
 gitUserName = os.getenv('usergit')
-gitPassword = os.getenv('password')
+gitPassword = os.getenv('gitpassword')
 gitPath = os.getenv('gitPath').replace('https://','')
 
 # update git
