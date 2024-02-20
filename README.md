@@ -1,7 +1,7 @@
 # model-serving-framework
 A kubernetes way to serve automatically your models. No bureaucracy.
 
-This project is inteded to autoserve machine learning models, or any ETL project you may like on the go.
+This project is intended to autoserve machine learning models, or any ETL project you may like on the go.
 On the docker version, the user must have a github repository with 'n' folders containing 'n' ML Models or ETL's. The container/pod will everyday update it's own code and serve your models automatically.
 Each folder in your repository must have a class named as etls.py (extract, transform, load and score) and it must contain 'transform_predict()' method, note that it must return a dict structure.
 
@@ -27,7 +27,7 @@ An example repository you should find here:
 https://github.com/ormenesse/models_serve
 ```
 
-The app will automatically serve on port 80 and each model will be wating to be served on, for an exemple:
+The app will automatically serve on port 80 and each model will be waiting to be served on, for an exemple:
 - /baseUrl/Model1
 - /baseUrl/Model2
 - /baseUrl/Etl1
@@ -37,7 +37,7 @@ Thinking on serve all the possible models there is a method implemented to serve
 - /baseUrl/all
 This method will return all of your models into one dict.
 
-Note that thiking kubernetes and nginx ingress, the environment variable 'baseUrl' is needed.
+Note that thinking kubernetes and nginx ingress, the environment variable 'baseUrl' is needed.
 
 If your model needs any variables, you should call de URL posting a JSON:
 ```
