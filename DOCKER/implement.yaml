@@ -15,7 +15,14 @@ spec:
     spec:
       containers:
       - image: <path_to_your_image_here>
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: 2000m
+            memory: 512Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
         name: model-serve-api
         env:
         - name: DAEMONSECS
@@ -30,3 +37,54 @@ spec:
           value: 
         command: ["/bin/bash"]
         args: ["-c","/etc/init.d/cron start && cd /app/app/ && python3 create_serve_models.py "]
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: model-serve-api-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: model-serve-api
+  minReplicas: 1
+  maxReplicas: 2
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 180
+      policies:
+      - type: Pods
+        value: 1
+        periodSeconds: 60
+    scaleDown:
+      stabilizationWindowSeconds: 180
+      policies:
+      - type: Pods
+        value: 1
+        periodSeconds: 60
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 90
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 90
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: model-serve-api-service
+  #namespace: default
+spec:
+  selector:
+    app: model-serve-api
+  ports:
+  - port: 80
+    targetPort: 80
+  type: ClusterIP
