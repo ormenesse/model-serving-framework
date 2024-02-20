@@ -14,17 +14,19 @@ spec:
         app: model-serve-api
     spec:
       containers:
-      - image: 
+      - image: <path_to_your_image_here>
         imagePullPolicy: IfNotPresent
         name: model-serve-api
         env:
+        - name: DAEMONSECS
+          value: "15"
         - name: gitPath
-          value: 
+          value: https://github.com/gyramais/models_serve.git
         - name: baseUrl
           value: models_serve
         - name: usergit
-          value: 
+          value: vormenesse
         - name: password
           value: 
         command: ["/bin/bash"]
-        args: ["-c","cd /app/app/ && python3 create_serve_models.py "]
+        args: ["-c","/etc/init.d/cron start && cd /app/app/ && python3 create_serve_models.py "]
